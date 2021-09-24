@@ -46,7 +46,7 @@ public class TodoList {
 		System.out.println("\n"
 				+ "모든 아이템을 표시합니다\n");
 		for (TodoItem myitem : list) {
-			System.out.println(myitem.getTitle() + myitem.getDesc());
+			System.out.println((list.indexOf(myitem) + 1) + ". [" + myitem.getCategory() + "] " + myitem.getTitle() + " - " + myitem.getDesc() + " - " + myitem.getDue_date() + " - " +  myitem.getCurrent_date());
 		}
 	}
 	
