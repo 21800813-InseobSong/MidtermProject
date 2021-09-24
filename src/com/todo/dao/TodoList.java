@@ -16,8 +16,8 @@ public class TodoList {
 		list.add(t);
 	}
 
-	public void deleteItem(TodoItem t) {
-		list.remove(t);
+	public void deleteItem(int index) {
+		list.remove(index);
 	}
 
 	void editItem(TodoItem t, TodoItem updated) {
@@ -25,9 +25,17 @@ public class TodoList {
 		list.remove(index);
 		list.add(updated);
 	}
+	
+	public int size() {
+		return list.size();
+	}
 
 	public ArrayList<TodoItem> getList() {
 		return new ArrayList<TodoItem>(list);
+	}
+	
+	public TodoItem get(int index) {
+		return list.get(index);
 	}
 
 	public void sortByName() {

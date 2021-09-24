@@ -17,7 +17,7 @@ public class TodoMain {
 		do {
 			Menu.prompt();
 			isList = false;
-			String choice = sc.next();
+			String choice = sc.nextLine();
 			switch (choice) {
 
 				case "add":
@@ -51,6 +51,16 @@ public class TodoMain {
 					l.sortByDate();
 					isList = true;
 					break;
+					
+				case "ls_date_desc":
+					l.sortByDate();
+					l.reverseList();
+					isList = true;
+					break;
+					
+				case "ls_cate":
+					TodoUtil.listCate(l);
+					break;
 				
 				case "help":
 					Menu.displaymenu();
@@ -61,7 +71,14 @@ public class TodoMain {
 					break;
 	
 				default:
-					System.out.println("사용할 수 없는 명령어입니다. (도움말 - help)");
+					if(choice.contains("find")) {
+						TodoUtil.findItem(l, choice);
+					} else if(choice.contains("find_cate")) {
+						TodoUtil.findCate(l, choice);
+					}
+					else {
+						System.out.println("사용할 수 없는 명령어입니다. (도움말 - help)");
+					}
 					break;
 			}
 				
