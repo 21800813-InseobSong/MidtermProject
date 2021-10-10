@@ -10,14 +10,14 @@ public class TodoMain {
 	public static void start() {
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-		TodoUtil.loadList(l, "todolist.txt");
+		//l.importData("todolist.txt");
 		boolean isList = false;
 		boolean quit = false;
 		Menu.displaymenu();
 		do {
 			Menu.prompt();
 			isList = false;
-			String choice = sc.nextLine();
+			String choice = sc.next();
 			switch (choice) {
 
 				case "add":
@@ -36,54 +36,66 @@ public class TodoMain {
 					TodoUtil.listAll(l);
 					break;
 	
-				case "ls_name_asc":
-					l.sortByName();
-					isList = true;
+				case "ls_name":
+					System.out.println("제목순으로 정렬하였습니다.");
+					TodoUtil.listAll(l, "title", 1);
 					break;
 	
 				case "ls_name_desc":
-					l.sortByName();
-					l.reverseList();
+					System.out.println("제목역순으로 정렬하였습니다.");
+					TodoUtil.listAll(l, "title", 0);
 					isList = true;
 					break;
 					
 				case "ls_date":
-					l.sortByDate();
+					System.out.println("날짜순으로 정렬하였습니다.");
+					TodoUtil.listAll(l, "due_date", 1);
 					isList = true;
 					break;
 					
 				case "ls_date_desc":
-					l.sortByDate();
-					l.reverseList();
+					System.out.println("날짜역순으로 정렬하였습니다.");
+					TodoUtil.listAll(l, "due_date", 0);
 					isList = true;
 					break;
 					
 				case "ls_cate":
-					TodoUtil.listCate(l);
+					TodoUtil.listCateAll(l);
 					break;
 				
 				case "help":
 					Menu.displaymenu();
 					break;
 					
+				case "find":
+					String keyword = sc.nextLine().trim();
+					TodoUtil.findList(l, keyword);
+					break;
+					
+				case "find_cate":
+					String key = sc.nextLine().trim();
+					TodoUtil.findCateList(l, key);
+					break;
+					
+				case "comp":
+					int number = sc.nextInt();
+					TodoUtil.completeItem(l, number);
+					break;
+					
+				case "ls_comp":
+					TodoUtil.listAll(l, 1);
+					break;
+					
 				case "exit":
 					quit = true;
 					break;
-	
+					
 				default:
-					if(choice.contains("find")) {
-						TodoUtil.findItem(l, choice);
-					} else if(choice.contains("find_cate")) {
-						TodoUtil.findCate(l, choice);
-					}
-					else {
-						System.out.println("사용할 수 없는 명령어입니다. (도움말 - help)");
-					}
+					System.out.println("사용할 수 없는 명령어입니다. (도움말 - help)");
 					break;
 			}
 				
-			if(isList) l.listAll();
+			//if(isList) l.listAll();
 		} while (!quit);
-		TodoUtil.saveList(l, "todolist.txt");
 	}
 }
