@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.todo.dao.TodoItem;
@@ -33,10 +34,20 @@ public class TodoUtil {
 		System.out.print("설명을 입력하세요 > ");
 		desc = sc.nextLine();
 		
+		System.out.print("장소를 입력하세요 > ");
+		String place = sc.nextLine();
+		
+		System.out.print("시작일자를 입력하세요 > ");
+		String start_date = sc.nextLine().trim();
+		
 		System.out.print("마감일자를 입력하세요 > ");
 		due_date = sc.nextLine();
 		
-		TodoItem t = new TodoItem(title, desc, category, due_date);
+		TodoItem t = new TodoItem(title, desc, category, start_date, due_date);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+		Date date = new Date();
+		t.setCurrent_date(format.format(date));
+		t.setPlace(place);
 		if(l.addItem(t) > 0) {
 			System.out.println("추가되었습니다.");
 		} else {
@@ -51,8 +62,15 @@ public class TodoUtil {
 		System.out.print("삭제하고싶은 아이템의 번호를 입력하세요 > ");
 		
 		Scanner sc = new Scanner(System.in);
-		int index = sc.nextInt();
-		if(l.deleteItem(index) > 0) {
+		String index = sc.nextLine();
+		int count = 0;
+		String[] deletenum = index.split(",");
+		for(int i = 0; i<deletenum.length; i++) {
+			int del = Integer.parseInt(deletenum[i].trim());
+			count+=l.deleteItem(del);
+		}
+				
+		if(count > 0) {
 			System.out.println("삭제되었습니다.");
 		}
 	}
@@ -78,10 +96,20 @@ public class TodoUtil {
 		System.out.print("새로운 설명을 입력하세요 > ");
 		String new_description = sc.nextLine().trim();
 		
+		System.out.print("새로운 장소를 입력하세요 > ");
+		String new_place = sc.nextLine();
+		
+		System.out.print("새로운 시작일자를 입력하세요 > ");
+		String new_startdate = sc.nextLine().trim();
+		
 		System.out.print("새로운 마감일자를 입력하세요 > ");
 		String new_duedate = sc.nextLine();
-		TodoItem item = new TodoItem(new_title, new_description, new_category, new_duedate);
+		
+		TodoItem item = new TodoItem(new_title, new_description, new_category, new_startdate, new_duedate);
 		item.setId(index);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+		item.setCurrent_date(format.format(new Date()));
+		item.setPlace(new_place);
 		if(l.updateItem(item) > 0) {
 			System.out.println("수정되었습니다.");
 		}
@@ -190,8 +218,23 @@ public class TodoUtil {
 		}
 	}
 	
-	public static void completeItem(TodoList l, int key) {
-		l.completeItem(key);
+	public static void completeItem(TodoList l) {
+		System.out.println("\n"
+				+ "========== 완료처리");
+		System.out.print("완료처리하고싶은 아이템의 번호를 입력하세요 > ");
+		
+		Scanner sc = new Scanner(System.in);
+		String index = sc.nextLine();
+		int count = 0;
+		String[] updatenum = index.split(",");
+		for(int i = 0; i<updatenum.length; i++) {
+			int key = Integer.parseInt(updatenum[i].trim());
+			count+=l.completeItem(key);
+		}
+				
+		if(count > 0) {
+			System.out.println("완료 체크하였습니다.");
+		}
 	}
 	
 	public static void saveList(TodoList l, String filename) {
@@ -218,8 +261,9 @@ public class TodoUtil {
 				String title = st.nextToken();
 				String desc = st.nextToken();
 				String due_date = st.nextToken();
+				String start_date = st.nextToken();
 				String current_date = st.nextToken();
-				TodoItem t = new TodoItem(title, desc, category, due_date);
+				TodoItem t = new TodoItem(title, desc, category, start_date, due_date);
 				t.setCurrent_date(current_date);
 				l.addItem(t);
 				count++;
@@ -229,10 +273,5 @@ public class TodoUtil {
 		} catch(IOException e) {
 			System.out.println(filename + " 파일이 없습니다.");
 		}
-	}
-
-	public static void listAll(int i) {
-		// TODO Auto-generated method stub
-		
 	}
 }

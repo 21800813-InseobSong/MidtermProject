@@ -78,8 +78,7 @@ public class TodoMain {
 					break;
 					
 				case "comp":
-					int number = sc.nextInt();
-					TodoUtil.completeItem(l, number);
+					TodoUtil.completeItem(l);
 					break;
 					
 				case "ls_comp":
