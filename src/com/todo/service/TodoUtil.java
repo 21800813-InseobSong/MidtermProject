@@ -1,6 +1,7 @@
 package com.todo.service;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
 
@@ -272,6 +275,47 @@ public class TodoUtil {
 			br.close();
 		} catch(IOException e) {
 			System.out.println(filename + " 파일이 없습니다.");
+		}
+	}
+	
+	public static void saveToJson(TodoList l) {
+		Gson gson = new Gson();
+		String jsonstr = gson.toJson(l.getList());
+		try {
+			FileWriter writer = new FileWriter("todolist.json");
+			writer.write(jsonstr);
+			writer.close();
+			System.out.println("파일에 저장되었습니다!");
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void checkIntegrity(TodoList l) {
+		Gson gson = new Gson();
+		String jsonstr = null;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("todolist.json"));
+			jsonstr = br.readLine();
+			br.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<TodoItem> list = gson.fromJson(jsonstr, new TypeToken<List<TodoItem>>(){}.getType());
+		int count = 0;
+		for(TodoItem t : list) {
+			if(l.isDuplicate(t.getTitle())) {
+				count++;
+			}
+		}
+		
+		if(count != 0) {
+			System.out.println("파일에 이상이 발견되었습니다!");
+		}else {
+			System.out.println("파일에 이상이 없습니다.");
 		}
 	}
 }

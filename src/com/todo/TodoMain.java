@@ -85,6 +85,14 @@ public class TodoMain {
 					TodoUtil.listAll(l, 1);
 					break;
 					
+				case "json":
+					TodoUtil.saveToJson(l);
+					break;
+					
+				case "check":
+					TodoUtil.checkIntegrity(l);
+					break;
+					
 				case "exit":
 					quit = true;
 					break;
@@ -96,5 +104,6 @@ public class TodoMain {
 				
 			//if(isList) l.listAll();
 		} while (!quit);
+		TodoUtil.saveToJson(l);
 	}
 }

@@ -10,14 +10,16 @@ public class Menu {
         System.out.println("4. 모든 아이템을 표시합니다 ( ls )");
         System.out.println("5. 이름 순서대로 정렬합니다 ( ls_name )");
         System.out.println("6. 이름 역순으로 정렬합니다 ( ls_name_desc )");
-        System.out.println("7. 시간 순서대로 정렬합니다 ( ls_date )");
-        System.out.println("8. 시간 역순으로 정렬합니다 ( ls_date_desc )");
+        System.out.println("7. 마감시간 순서대로 정렬합니다 ( ls_date )");
+        System.out.println("8. 마감시간 역순으로 정렬합니다 ( ls_date_desc )");
         System.out.println("9. 카테고리 목록을 표시합니다 ( ls_cate )");
         System.out.println("10. 제목이나 내용을 찾습니다 ( find 키워드 )");
         System.out.println("11. 카테고리를 찾습니다 ( find_cate 키워드 )");
         System.out.println("12. 항목을 완료처리합니다 ( comp )");
         System.out.println("13. 완료된 항목을 표시합니다 ( ls_comp )");
-        System.out.println("14. 종료 ( exit )");
+        System.out.println("14. 항목을 json으로 저장합니다 ( json )");
+        System.out.println("15. 무결성 검사를 실시합니다 ( check )");
+        System.out.println("16. 종료 ( exit )");
     }
 
 	public static void prompt() {
